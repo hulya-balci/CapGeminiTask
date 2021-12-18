@@ -6,6 +6,7 @@ import com.CapGemini.utilities.ConfigurationReader;
 import com.CapGemini.utilities.Driver;
 import cucumber.api.PendingException;
 import io.cucumber.java.en.And;
+import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.testng.Assert;
@@ -14,7 +15,7 @@ public class ANZStepDef {
 
     ANZPage anzPage=new ANZPage();
 
-    @io.cucumber.java.en.Given("Open chrome")
+    @Given("Open chrome")
     public void openChrome() {
         Driver.get().manage().window().maximize();
     }
@@ -22,7 +23,6 @@ public class ANZStepDef {
 
     @And("Navigate to anz")
     public void navigateToAnz() {
-
         String url= ConfigurationReader.get("url");
         Driver.get().get(url);
     }
@@ -37,21 +37,18 @@ public class ANZStepDef {
         anzPage.otherLoan.sendKeys("100");
         anzPage.creditCard.sendKeys("10000");
         anzPage.calculator.click();
-
     }
 
     @Then("^borrowing estimate is displayed correctly$")
     public void borrowing_estimate_is_displayed_correctly(){
         BrowserUtils.waitFor(2);
-        String expectedamount = "$482,000";
-        String actualamount=anzPage.borrowResult.getText();
-        Assert.assertEquals(actualamount,expectedamount);
-
+        String expectedAmount = "$482,000";
+        String actualAmount=anzPage.borrowResult.getText();
+        Assert.assertEquals(actualAmount,expectedAmount);
     }
 
     @When("^User clicks start over button$")
     public void user_clicks_start_over_button() {
-
         anzPage.startOver.click();
     }
 
@@ -71,24 +68,18 @@ public class ANZStepDef {
 
     @When("^User does not enter all details$")
     public void user_does_not_enter_all_details()  {
-
-        anzPage.monthlyExp.sendKeys("1");
+        anzPage.monthlyExp.sendKeys("100");
         anzPage.calculator.click();
-
-
     }
 
     @Then("^Correct error is displayed$")
     public void correct_error_is_displayed(){
-
         BrowserUtils.waitFor(2);
         Assert.assertTrue(anzPage.errorMsg.isDisplayed());
-
     }
 
     @Then("^Application should be closed$")
     public void application_should_be_closed(){
-
         Driver.get().quit();
     }
 
